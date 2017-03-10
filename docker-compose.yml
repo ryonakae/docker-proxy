@@ -9,7 +9,19 @@ services:
     restart: always
     tty: false
     volumes:
+      - ./certs:/etc/nginx/certs:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: letsencrypt
+    restart: always
+    tty: false
+    volumes:
+      - ./certs:/etc/nginx/certs:rw
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    volumes_from:
+      - proxy
 
 networks:
   default:
