@@ -14,6 +14,8 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - /etc/nginx/vhost.d
       - /usr/share/nginx/html
+    networks:
+      - front
 
   letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
@@ -26,8 +28,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     volumes_from:
       - proxy
+    networks:
+      - front
 
 networks:
-  default:
-    external:
-      name: shared
+  front:
+    external: true
