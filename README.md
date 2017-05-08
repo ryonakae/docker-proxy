@@ -1,5 +1,5 @@
-# brdr-proxy
-Reverse proxy server for brdr.jp
+# docker-proxy
+Reverse proxy server by Docker
 
 ## ネットワーク作成
 リバースプロキシとサービスのWebサーバ(Apache, Nginx)とを繋ぐためのネットワークを作成
