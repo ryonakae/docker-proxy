@@ -1,37 +1,32 @@
 version: '2'
+
 services:
   proxy:
     image: jwilder/nginx-proxy:alpine
-    container_name: proxy
     ports:
       - 80:80
       - 443:443
     restart: always
-    tty: false
-    privileged: true
     volumes:
+      - ./nginx/my_setting.conf:/etc/nginx/conf.d/my_setting.conf:ro
       - ./certs:/etc/nginx/certs:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - /etc/nginx/vhost.d
       - /usr/share/nginx/html
-      - ./setting/nginx/conf.d/my_setting.conf:/etc/nginx/conf.d/my_setting.conf:ro
     networks:
-      - front
+      - proxy
 
   letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
-    container_name: letsencrypt
     restart: always
-    tty: false
-    privileged: true
     volumes:
       - ./certs:/etc/nginx/certs:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
     volumes_from:
       - proxy
     networks:
-      - front
+      - proxy
 
 networks:
-  front:
+  proxy:
     external: true
